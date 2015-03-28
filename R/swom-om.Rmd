@@ -369,7 +369,7 @@ ggplot(transform(ddply(subset(cas,len>=100&len<=200), .(year),
 **Figure 10.** Estimates of Z derived from the Powell-Wetherall plots; showing the estimates from each year (black line with points) and a smoother (blue continuous line).
 
 
-```{r}
+```{rtrade-offs-selpw}
 ccFn=function(freq,age){
     freq=freq/sum(freq)
     lm  =lm(log(freq)~age)
@@ -395,7 +395,7 @@ ggplot(cc)+
 **Figure 11.** Catch curves by lustrum from statisical age estimates.
 
 
-```{r}
+```{rtrade-offs-selpw2}
 ggplot(cc, aes(age,sel))+
   geom_point()+
   geom_line(data=subset(cc,age<=5))+
