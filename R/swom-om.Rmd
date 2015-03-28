@@ -36,7 +36,7 @@ library(FLash)
 library(mixdist)
 
 ## Data and parameters
-dirMy ="/home/laurie/Desktop/MEGAsync/mse/trade-offs"
+dirMy ="/home/laurie/MEGAsync/mse/trade-offs"
 dirDat=paste(dirMy,"/data",  sep="")
 dirInp=paste(dirMy,"/inputs",sep="")
 
@@ -121,7 +121,7 @@ waa           =par["a"]*laa^par["b"]
 save(caa,laa,waa,par,file=paste(dirDat,"/caa.RData",sep=""))
 ```
 
-```{rcas2caa,echo=FALSE, figure.width=12,figure.height=8}     
+```{rtrade-offs-cas2caa,echo=FALSE, figure.width=12,figure.height=8}     
 lfs.df=ldply(lfs, function(lf){
 
   fn =function(pi,mu,sigma,x) pi*dnorm(x,mu,sigma)
@@ -153,7 +153,7 @@ ggplot(cas) +
 **Figure 1.** Length Frequencies with age modes (red) and total distributions (green) from the statistical estimation overlayed.
 
 
-```{rcaa,fig.height=4}
+```{rtrade-offs-caa,fig.height=4}
 vbPar=c(K=par["k"],t0=par["t0"],Linf=par["linf"])
 
 slice=ddply(cas,.(year), function(x) 
@@ -175,7 +175,7 @@ ggplot(as.data.frame(slice))+
 **Figure 2.** Deterministic numbers-at-age from age slicing procedure.
 
 
-```{rcaa2,fig.height=4}
+```{rtrade-offs-caa2,fig.height=4}
 ggplot(as.data.frame(caa))+
   geom_point(aes(year,age,size=data))+
   theme(legend.position="none")+
@@ -186,7 +186,7 @@ ggplot(as.data.frame(caa))+
 **Figure 3.** Statistical estimates of numbers-at-age  from the mixture distribution analysis.
 
 
-```{r}
+```{rtrade-offs-caa-cf}
 dat=transform(as.data.frame(FLQuants(Statistical  =caa,
                                      Deterministic=slice),drop=T),
               lustrum=(year%/%5)*5,
@@ -205,7 +205,7 @@ ggplot(dat)+
 **Figure 4.** A comparison of catch numbers-at-age from the statistical and deterministic ageing procedures.
 
 
-```{rsraa,fig.height=4}
+```{rtrade-offs-sraa,fig.height=4}
 res=slice%/%apply(slice,2,sum)
 res=res%-%apply(res,1,mean)
 res=res%/%apply(res,1,sd)
@@ -223,7 +223,7 @@ ggplot(as.data.frame(res))+
 **Figure 5.** Standardised residuals of the proportion of numbers-at-age from the deterministic age slicing procedure (red negative and black positive residuals).
 
 
-```{raa2,fig.height=4}
+```{rtrade-offs-aa2,fig.height=4}
 res=caa%/%apply(caa,2,sum)
 res=res%-%apply(res,1,mean)
 res=res%/%apply(res,1,sd)
@@ -277,7 +277,7 @@ swom=setPlusGroup(swom,5)
 stock.wt(swom)=catch.wt(swom)
 ```
 
-```{rcatch,fig.height=4}
+```{rtrade-offs-catch,fig.height=4}
 load(paste(dirDat,"swo2009PG10.RData",sep="/"))
 
 biomass=cbind(ddply(cas,.(year), with, data.frame("CAS-Growth Curve"=sum(wt*n))),
@@ -298,7 +298,7 @@ ggplot(melt(biomass,id="year"))+
 mean(landings(swom)/computeCatch(swom))
 ```
 
-```{rcas2,fig.height=6}
+```{rtrade-offs-cas2,fig.height=6}
 ggplot(ddply(cas,.(lustrum), transform, n=n/sum(n)))+
   geom_histogram(aes(x=len,y=..density..,weight=n),binwidth=5,
                  fill="steelblue",col="grey25")+
@@ -310,7 +310,7 @@ ggplot(ddply(cas,.(lustrum), transform, n=n/sum(n)))+
 **Figure 8.** Catch-at-size by lustrum (5 year block).
 
 
-```{rpw}
+```{rtrade-offs-pw}
 powh=function(len,n){
   
   fn=function(len,n){
@@ -358,7 +358,7 @@ ggplot(pw)+
 **Figure 9.**  Powell-Wheatherall plots
 
 
-```{rpwz,fig.height=3,length=8}
+```{rtrade-offs-pwz,fig.height=3,length=8}
 ggplot(transform(ddply(subset(cas,len>=100&len<=200), .(year), 
             function(cas) powh(cas$len,cas$n)$params),
          z=zk*par["k"]))+
@@ -410,7 +410,7 @@ save(cc,file=paste(dirDat,"cc.RData",sep="/"))
 
 
 ##Selectivity by gear
-```{r,fig.height=5,eval=FALSE}
+```{rtrade-offs-catchCurve,fig.height=5,eval=FALSE}
 ca=ddply(cas, .(gear), 
           function(x,par,plusGroup,timing)
                  age_slicing(x$n,x$len,vbPar,timing=0.5,age_limits=c(0,10)))
@@ -432,7 +432,7 @@ ggplot(cc,aes(age,sel))+
 
 
 ##Selectivity by gear and lustrum
-```{r,fig.height=5}
+```{rtrade-offs-catchCurve2,fig.height=5}
 ca=ddply(subset(cas,year>=2006), .(gear,lustrum), 
           function(x,par,plusGroup,timing)
                  age_slicing(x$n,x$len,vbPar,timing=0.5,age_limits=c(0,10)))
@@ -480,7 +480,7 @@ dgs=mdply(data.frame(u=names(u)), function(u,xsa)
 dgs=ddply(dgs,.(u,age),diags:::diagsFn)
 ```
 
-```{ruhat}
+```{rtrade-offs-uhat}
 ggplot(dgs,aes(hat,residual))+
   geom_point()+
   geom_hline(aes(yintercept=0))+
@@ -489,7 +489,7 @@ ggplot(dgs,aes(hat,residual))+
 
 **Figure 15.** XSA diagnostics from continuity run; residuals against fitted value.
 
-```{rursd}
+```{rtrade-offs-ursd}
 ggplot(dgs,aes(year,residual))+
   geom_point()+
   geom_errorbar(aes(year,ymin=0,ymax=residual))+
@@ -499,7 +499,7 @@ ggplot(dgs,aes(year,residual))+
 
 **Figure 16.** XSA diagnostics from continuity run; residuals against year.
 
-```{rursd2,fig.height=4}
+```{rtrade-offs-ursd2,fig.height=4}
 ggplot(subset(dgs,age==2),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -510,7 +510,7 @@ ggplot(subset(dgs,age==2),aes(hat,obs))+
 
 **Figure 17.** XSA diagnostics from continuity run; Calibration regression plots for age 2 (outlier for Scilian gillnet removed).
 
-```{rursd3,fig.height=4}
+```{rtrade-offs-ursd3,fig.height=4}
 ggplot(subset(dgs,age==3),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -521,7 +521,7 @@ ggplot(subset(dgs,age==3),aes(hat,obs))+
 
 **Figure 18.** XSA diagnostics from continuity run; Calibration regression plots for age 3 (outlier for Scilian gillnet removed).
 
-```{rursd4,fig.height=4}
+```{rtrade-offs-ursd4,fig.height=4}
 ggplot(subset(dgs,age==4),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -533,7 +533,7 @@ ggplot(subset(dgs,age==4),aes(hat,obs))+
 **Figure 19.** XSA diagnostics from continuity run; Calibration regression plots for age 4 (outlier for Scilian gillnet removed).
 
 
-```{ruar,fig.height=6}
+```{rtrade-offs-uar,fig.height=6}
 ggplot(dgs,aes(residual,residualLag))+
   geom_hline(aes(yintercept=0))+
   geom_point()+
@@ -543,7 +543,7 @@ ggplot(dgs,aes(residual,residualLag))+
 
 **Figure 20.** XSA diagnostics from continuity run; AR plots of lagged residuals
 
-```{rqq,fig.height=4}
+```{rtrade-offs-qq,fig.height=4}
 ggplot(dgs)                                           +
   geom_point( aes(qqx,qqy))                            +
   stat_smooth(aes(qqx,qqHat),method="lm",se=T,fill="blue", alpha=0.1)         +
@@ -554,7 +554,7 @@ ggplot(dgs)                                           +
 **Figure 21.** XSA diagnostics from continuity run; QQ plots to check for normality
 
 
-```{rWts}
+```{rtrade-offs-Wts}
 ggplot(subset(xsa@diagnostics,age>0))+
   geom_point(aes(as.numeric(yrcls),nhat,size=0),shape=1,alpha=0)+
    geom_point(aes(as.numeric(yrcls),nhat,fill=factor(age),size=w),shape=21,
@@ -566,7 +566,7 @@ ggplot(subset(xsa@diagnostics,age>0))+
 
 **Figure 22.** XSA diagnostics from continuity run; weights for terminal year Ns for each CPUE observation and shrinkage
 
-```{rsingleU,fig.height=6.5}
+```{rtrade-offs-singleU,fig.height=6.5}
 stks=FLStocks(mlply(data.frame(u=names(u)), function(u,swom,idx,ctrl){
  swom+FLXSA(swom,idx[[u]],ctrl)
   },swom=swom,idx=u,ctrl=xsaCtrl2))
@@ -578,7 +578,7 @@ plot(stks)+
 
 **Figure 23.** XSA time series estimates by CPUE series.
 
-```{rRetro}
+```{rtrade-offs-Retro}
 plot(FLStocks(mlply(data.frame(year=2009:2013), function(year,swom,u,ctrl){
   stk=window(swom,end=year)  
   stk+FLXSA(stk,u,ctrl)
@@ -614,7 +614,7 @@ dgs=mdply(data.frame(u=index.name(xsa)), function(u,xsa)
 dgs=ddply(dgs,.(u,age),diags:::diagsFn)
 ```
 
-```{ruhat-alt}
+```{rtrade-offs-uhat-alt}
 ggplot(dgs,aes(hat,residual))+
   geom_hline(aes(yintercept=0))+
   geom_point()+
@@ -623,7 +623,7 @@ ggplot(dgs,aes(hat,residual))+
 
 **Figure 25.** XSA diagnostics from alternative run; residuals against fitted value.
 
-```{rursd-alt}
+```{rtrade-offs-ursd-alt}
 ggplot(dgs,aes(year,residual))+
   geom_point()+
   geom_errorbar(aes(year,ymin=0,ymax=residual))+
@@ -633,7 +633,7 @@ ggplot(dgs,aes(year,residual))+
 
 **Figure 26.** XSA diagnostics from  from alternative run; residuals against year.
 
-```{rursd2-alt,fig.height=4}
+```{rtrade-offs-ursd2-alt,fig.height=4}
 ggplot(subset(dgs,age==2),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -644,7 +644,7 @@ ggplot(subset(dgs,age==2),aes(hat,obs))+
 
 **Figure 27.** XSA diagnostics from  from alternative run; Calibration regression plots for age 2.
 
-```{rursd3-alt,fig.height=4}
+```{rtrade-offs-ursd3-alt,fig.height=4}
 ggplot(subset(dgs,age==3),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -655,7 +655,7 @@ ggplot(subset(dgs,age==3),aes(hat,obs))+
 
 **Figure 28.** XSA diagnostics from alternative run; Calibration regression plots for age 3.
 
-```{rursd4-alt,fig.height=4}
+```{rtrade-offs-ursd4-alt,fig.height=4}
 ggplot(subset(dgs,age==4),aes(hat,obs))+
   geom_abline(aes(a=0,b=1))+
   geom_point()+
@@ -667,7 +667,7 @@ ggplot(subset(dgs,age==4),aes(hat,obs))+
 **Figure 29.** XSA diagnostics from alternative run; Calibration regression plots for age 4.
 
 
-```{ruar-alt,fig.height=6}
+```{rtrade-offs-uar-alt,fig.height=6}
 ggplot(dgs,aes(residual,residualLag))+
   geom_hline(aes(yintercept=0))+
   geom_point()+
@@ -677,7 +677,7 @@ ggplot(dgs,aes(residual,residualLag))+
 
 **Figure 30.** XSA diagnostics alternative run; AR plots of lagged residuals
 
-```{rqq-alt,fig.height=4}
+```{rtrade-offs-qq-alt,fig.height=4}
 ggplot(dgs)                                           +
   geom_point( aes(qqx,qqy))                            +
   stat_smooth(aes(qqx,qqHat),method="lm",se=T,fill="blue", alpha=0.1)         +
@@ -687,7 +687,7 @@ ggplot(dgs)                                           +
 
 **Figure 31.** XSA diagnostics alternative run; QQ plots to check for normality
 
-```{rWts-alt,figure.height=4}
+```{rtrade-offs-Wts-alt,figure.height=4}
 ggplot(subset(xsa@diagnostics,age>0))+
   geom_point(aes(as.numeric(yrcls),nhat,size=0),shape=1,alpha=0)+
    geom_point(aes(as.numeric(yrcls),nhat,fill=factor(age),size=w),shape=21,
@@ -699,7 +699,7 @@ ggplot(subset(xsa@diagnostics,age>0))+
 
 **Figure 32.** XSA diagnostics alternative run; weights for terminal year Ns for each CPUE observation and shrinkage
 
-```{rsingleU-alt,fig.height=6.5}
+```{rtrade-offs-singleU-alt,fig.height=6.5}
 stks=FLStocks(mlply(data.frame(u=names(u)), function(u,swom,idx,ctrl){
  swom+FLXSA(swom,idx[[u]],ctrl)
   },swom=swom,idx=u,ctrl=xsaCtrl2))
@@ -711,7 +711,7 @@ plot(stks)+
 
 **Figure 33.** XSA time series estimates by CPUE series.
 
-```{rRetro-alt}
+```{rtrade-offs-Retro-alt}
 plot(FLStocks(mlply(data.frame(year=2009:2013), function(year,swom,u,ctrl){
   stk=window(swom,end=year)  
   stk+FLXSA(stk,u,ctrl)
@@ -722,7 +722,7 @@ plot(FLStocks(mlply(data.frame(year=2009:2013), function(year,swom,u,ctrl){
 **Figure 34.** Retrospective XSA time series estimates.
 
 ## Stock Status
-```{rU16}
+```{rtrade-offs-U16}
 plot(swom)+
   theme(legend.position="none")
 ```
@@ -730,7 +730,7 @@ plot(swom)+
 **Figure 35.** XSA alternative run.
 
 ## Stock Status
-```{rsr}
+```{rtrade-offs-sr}
 sr=as.FLSR(swom,model="bevholt")
 sr=fmle(sr,control=list(trace=0),fixed=list(b=10))
 plot(sr)
@@ -738,7 +738,7 @@ plot(sr)
 
 **Figure 36.** Stock Recruitment Relationship
 
-```{r}
+```{rtrade-offs-eql}
 discards.n(swom)[]=0
 swom=setPlusGroup(swom,10)
 
@@ -757,14 +757,14 @@ plot(brp)+theme(legend.position="bottom")
 
 **Figure 37a.** Equilibrium Analysis with reference points.
 
-```{r}
+```{rtrade-offs-eql2}
 plot(brp,obs=TRUE,refpts=FALSE)+theme(legend.position="bottom")
 ```
 
 **Figure 37b.** Equilibrium Analysis with observations.
 
 
-```{r}
+```{rtrade-offs-kobe}
 library(kobe)
 kobePhase(kobe(brp,swom),xlim=c(0,2))+
   geom_path(aes(stock,harvest,col=year))+
@@ -775,7 +775,7 @@ save(brp,swom,file=paste(dirDat,"/shiny.RData",sep=""))
 
 **Figure 38.** Kobe Phase Plot.
 
-```{rsel}
+```{rtrade-offs-sel}
 load(paste(dirDat,"pel.RData",sep="/"))
 
 pel=setPlusGroup(FLQuant(c(0,pel[,"sel"]),
@@ -792,7 +792,7 @@ ggplot(as.data.frame(FLQuants("Current"    =landings.sel(brp)/max(landings.sel(b
 
 **Figure 39.** Current and mesopelagic selection patterns.
 
-```{r}
+```{rtrade-offs-fwd}
 set.seed(9789)
 srDev=exp(FLQuant(sample(c(residuals(sr)[,ac(1985:2010)]),26*100,T),
             ,dimnames=list(year=2014:2025,iter=1:100)))
@@ -815,7 +815,7 @@ plot(swoms)+
 
 **Figure 40.** Projections for current selection pattern.
 
-```{r}
+```{rtrade-offs-fwds}
 selMult=0.5
 
 landings.sel(brp)=sel*selMult+pel*(1-selMult)
