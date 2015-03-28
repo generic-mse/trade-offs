@@ -1,0 +1,44 @@
+Laurie, thanks looks good. Minor comments:
+
+1. Would be good to calculate net present value of the difference between the base case (counterfactual or without) and each policy (the with). This is the standard cost-benefit approach. 
+
+2. Costs could be declined by say 2% per year to account for fishing power/productivity growth. Would cancel out when comparing base case/counterfactual and policy, but more realistic appearance.
+
+3. In economics, when using days as effort this is a Leontief production function, means fixed proportions and that if there are two inputs, variable inputs represented by days and capital stock represented by vessel numbers, then days are a limiting input and capital stock is superfluous. This raises the question of whether fixed costs should be included. Another option is to take a weighted average, using costs, of days and vessel numbers as effort. I have found that measure of effort that includes days and vessel numbers gives a better working (in terms of fit, signs of coefficients, etc.) than simply days.
+
+Dale
+
+On Wed, Mar 18, 2015 at 10:44 AM, Laurie Kell <laurie.kell@iccat.int> wrote:
+
+    On 18/03/15 18:40, Dale Squires - NOAA Federal wrote:
+>     Laurie, not attached!
+>
+>     Attached is a toy bioeconomic model but excellent economics (if I say so myself!!) on technological change (fishing power change) in bioeconomics and why BMEY < BMSY but BMEY>BMSY when biodiversity and ecosystems are considered. . The example is albacore, so you will like that. "Technical Change and the Commons". It is a minority view, which is why I am so strident on this, but the model is indisputable and cannot be overturned. The journal is a top pure economics journal. The standard bioeconomics model excludes any type of technological change.
+>
+>     Attached is a revise and resubmit to Marine Resource Economics ("Journal of Last Resort"!!) that outlines shadow pricing. Shadow pricing is the standard cost-benefit way to account for the "socio" part of socio-economics.It also raises changes in technology/productivity/fishing power and that BMEY<BMSY for rent maximization but BMEY>BMSY when biodiversity and ecosystems are considered. This paper is called "Putting Economics into MEY".
+>
+>     Attached is a paper to be eventually submitted to Marine Policy on productivity growth (fishing power growth) that not only shows BMEY < BMSY but BMEY>BMSY when biodiversity and ecosystems are considered. It tries to engage in my mind Mark Maunder and Jim Thorsen, the two population biologists with whom I discuss changes in productivity/technology/fishing power (and maybe you as the third!?). We try to fit in productivity growth with standardization and time-varying matchability. Any comments would be most welcome.
+>
+>     As I said, we are updating our cost information for west coast USA albacore. I'm doing a lot of consumer demand stuff I'll tell you about at coffee break.
+>
+>     Looking forward to working with you!
+>
+>     Dale
+>
+>     On Wed, Mar 18, 2015 at 7:16 AM, Laurie Kell <laurie.kell@iccat.int> wrote:
+>
+>         Good talking to you. This is a paper from a few years ago which we intended to turn into an MSE with economics
+>
+>         Tserpes, George, et al. "A bio-economic evaluation of different management measures for the Mediterranean swordfish." Fisheries Research 96.2 (2009): 160-166.
+>
+>         Any ideas gratefully received!
+>
+>         Plus keen to work on albacore
+>
+>         Laurie
+>
+>
+>
+>
+
+
